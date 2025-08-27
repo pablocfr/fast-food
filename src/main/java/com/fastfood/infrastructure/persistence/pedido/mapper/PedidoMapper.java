@@ -5,7 +5,7 @@ import com.fastfood.infrastructure.persistence.pedido.entity.PedidoEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {DetallePedidoMapper.class})
 public interface PedidoMapper {
 
     @Mapping(target = "idPedido", source = "idPedido")

@@ -13,7 +13,7 @@ public interface DetallePedidoMapper {
     @Mapping(target = "idDetallePedido", source = "idDetallePedido")
     @Mapping(target = "cantidad", source = "cantidad")
     @Mapping(target = "estado", source = "estado")
-    @Mapping(target = "pedido", source = "pedido")
+    @Mapping(target = "pedido", ignore = true) // ← AGREGAR ESTA LÍNEA
     @Mapping(target = "producto", ignore = true)
     @Mapping(target = "comboProducto", ignore = true)
     DetallePedidoModel map(DetallePedidoEntity entity);
@@ -21,9 +21,8 @@ public interface DetallePedidoMapper {
     @Mapping(target = "idDetallePedido", source = "idDetallePedido")
     @Mapping(target = "cantidad", source = "cantidad")
     @Mapping(target = "estado", source = "estado")
-    @Mapping(target = "pedido", source = "pedido")
+    @Mapping(target = "pedido", ignore = true) // ← AGREGAR ESTA LÍNEA
     @Mapping(target = "producto", ignore = true)
     @Mapping(target = "comboProducto", ignore = true)
     DetallePedidoEntity mapEntity(DetallePedidoModel model);
-
 }
