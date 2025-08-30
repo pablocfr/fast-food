@@ -9,12 +9,12 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class ListarPedidosUseCase {
+public class ListarPedidosPorEstadoUseCase {
 
     private final PedidoRepository pedidoRepository;
 
-    public List<PedidoModel> listarPedidos() {
-
-        return pedidoRepository.listarPedidos();
+    public List<PedidoModel> listarPedidoPorEstado(String estado) {
+        return pedidoRepository.listarPorEstado(estado);
     }
+
 }

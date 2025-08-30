@@ -9,7 +9,7 @@ public class ComboProductoModel {
     private Integer idComboProducto;
     private Integer cantidad;
     private Boolean activo;
-
+    private ComboModel combo;
     private ProductoModel producto;
 
 }

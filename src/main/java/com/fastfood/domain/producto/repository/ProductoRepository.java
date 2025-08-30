@@ -1,6 +1,8 @@
 package com.fastfood.domain.producto.repository;
 
 import com.fastfood.domain.producto.model.ProductoModel;
+import com.fastfood.domain.producto.valueobject.PaginaResult;
+import com.fastfood.domain.producto.valueobject.PaginacionRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,5 +14,7 @@ public interface ProductoRepository {
     ProductoModel guardar(ProductoModel producto);
     ProductoModel actualizar(int id, ProductoModel producto);
     void eliminar(int id);
+
+    PaginaResult<ProductoModel> listarProductosPaginado(PaginacionRequest paginacion);
 
 }

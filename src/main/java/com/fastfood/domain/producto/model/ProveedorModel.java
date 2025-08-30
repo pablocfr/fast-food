@@ -12,7 +12,7 @@ public class ProveedorModel {
     private Integer idProveedor;
     private String nombre;
     private String contacto;
-    private Boolean activo = true;
+    private Boolean activo;
     private List<ProductoModel> productos;
 
 }

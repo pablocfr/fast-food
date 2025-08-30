@@ -25,7 +25,8 @@ import java.util.List;
 @Mapper(componentModel = "spring", uses = {ProductoMapper.class})
 public interface ComboProductoMapper {
 
-    @Mapping(target = "producto.comboProductos", ignore = true)
+    @Mapping(target = "combo.comboProductos", ignore = true)  // Rompe el ciclo aquí
+    @Mapping(target = "producto.comboProductos", ignore = true)  // Y aquí
     ComboProductoModel map(ComboProductoEntity entity);
 
     List<ComboProductoModel> mapList(List<ComboProductoEntity> entities);
@@ -43,4 +44,8 @@ public interface ComboProductoMapper {
 
     @Mapping(target = "pedido", ignore = true)
     DetallePedidoModel detallePedidoEntityToDetallePedidoModel(DetallePedidoEntity entity);
+
+    @Mapping(target = "combo.comboProductos", ignore = true)
+    @Mapping(target = "producto.comboProductos", ignore = true)
+    ComboProductoEntity toEntity(ComboProductoModel model);
 }

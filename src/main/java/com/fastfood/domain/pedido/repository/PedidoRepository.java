@@ -20,4 +20,8 @@ public interface PedidoRepository {
     List<ProductoModel> listarProductosPorNombre(String nombre);
     List<ProductoModel> listarPorTipoProducto(String tipoProducto);
 
+    List<PedidoModel> listarPorEstado(String estado);
+
+    void cambiarEstadoPedido(Integer id);
+
 }

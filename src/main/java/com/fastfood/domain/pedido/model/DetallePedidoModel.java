@@ -15,7 +15,7 @@ public class DetallePedidoModel {
     private String estado;
     private PedidoModel pedido;
     private ProductoModel producto;
-    private ComboModel comboProducto;
+    private ComboModel combo;
 
 
 }

@@ -12,9 +12,11 @@ import com.fastfood.infrastructure.persistence.producto.jpa.ProductoRepositoryJP
 import com.fastfood.infrastructure.persistence.producto.mapper.ProductoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -63,7 +65,7 @@ public class PedidoRepositoryImpl implements PedidoRepository {
 
     @Override
     public List<PedidoModel> listarPedidos() {
-        return pedidoRepositoryJPA.findAll()
+        return pedidoRepositoryJPA.listarTodosLosPedidos()
                 .stream()
                 .map(pedidoMapper::map)
                 .toList();
@@ -94,4 +96,30 @@ public class PedidoRepositoryImpl implements PedidoRepository {
                 .map(productoMapper::map)
                 .toList();
     }
+
+    @Override
+    public List<PedidoModel> listarPorEstado(String estado) {
+        return pedidoRepositoryJPA.findByEstado(estado)
+                .stream()
+                .map(pedidoMapper::map)
+                .toList();
+    }
+
+    @Transactional
+    @Override
+    public void cambiarEstadoPedido(Integer id) {
+
+        PedidoModel pedido = buscarPorId(id).orElseThrow(() ->
+                new RuntimeException("Pedido no encontrado con id: " + id));
+
+        switch (pedido.getEstado()) {
+            case "Pendiente" -> pedido.setEstado("Preparando");
+            case "Preparando" -> pedido.setEstado("Completado");
+            case "Completado" -> pedido.setEstado("Entregado");
+            default -> throw new RuntimeException("No se puede cambiar el estado del pedido con id: " + id);
+        }
+
+        pedidoRepositoryJPA.save(pedidoMapper.mapEntity(pedido));
+    }
+
 }

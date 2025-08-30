@@ -3,6 +3,8 @@ package com.fastfood.application.producto;
 import com.fastfood.application.producto.usecase.*;
 import com.fastfood.domain.producto.model.ProductoModel;
 import com.fastfood.domain.producto.service.ProductoService;
+import com.fastfood.domain.producto.valueobject.PaginaResult;
+import com.fastfood.domain.producto.valueobject.PaginacionRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,7 @@ public class ProductoServiceImpl implements ProductoService {
     private final EliminarProductoUseCase eliminarProductoUseCase;
     private final ObtenerProductoUseCase obtenerProductoUseCase;
     private final ListarProductoUseCase listarProductoUseCase;
+    private final ListarProductosPaginadoUseCase listarProductosPaginadoUseCase;
 
     @Override
     public Optional<ProductoModel> buscarPorId(int id) {
@@ -42,5 +45,10 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public void eliminar(int id) {
         eliminarProductoUseCase.eliminar(id);
+    }
+
+    @Override
+    public PaginaResult<ProductoModel> listarProductosPaginado(PaginacionRequest paginacion) {
+        return listarProductosPaginadoUseCase.ejecutar(paginacion);
     }
 }

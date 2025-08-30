@@ -331,3 +331,46 @@ VALUES
     (8, 9, NULL, 1, 'Preparando'),
     (9, 3, NULL, 2, 'Pendiente'),
     (10, NULL, 5, 1, 'Completado');
+
+-- =============================
+-- =============================
+-- INSERTS: Pedido (clientes 1 al 10)
+-- =============================
+INSERT INTO pedido (id_cliente, id_usuario, fecha_hora, estado, numero_ticket, activo)
+VALUES
+    (1, 4, NOW(), 'Preparando', 'T0011', 1),
+    (2, 5, NOW(), 'Entregado', 'T0012', 1),
+    (3, 4, NOW(), 'Pendiente', 'T0013', 1),
+    (4, 5, NOW(), 'Preparando', 'T0014', 1),
+    (5, 4, NOW(), 'Entregado', 'T0015', 1),
+    (6, 5, NOW(), 'Pendiente', 'T0016', 1),
+    (7, 4, NOW(), 'Completado', 'T0017', 1),
+    (8, 5, NOW(), 'Preparando', 'T0018', 1),
+    (9, 4, NOW(), 'Entregado', 'T0019', 1),
+    (10, 5, NOW(), 'Pendiente', 'T0020', 1);
+
+-- =============================
+-- INSERTS: Detalle_Pedido (clientes 1 al 10)
+-- =============================
+INSERT INTO detalle_pedido (id_pedido, id_producto, id_combo_producto, cantidad, estado)
+VALUES
+    (11, 6, NULL, 1, 'Preparando'),
+    (11, 7, NULL, 2, 'Completado'),
+    (12, NULL, 4, 1, 'Entregado'),
+    (12, 4, NULL, 1, 'Preparando'),
+    (13, 2, NULL, 3, 'Pendiente'),
+    (13, 9, NULL, 1, 'Completado'),
+    (14, NULL, 5, 2, 'Preparando'),
+    (14, 8, NULL, 1, 'Completado'),
+    (15, 1, NULL, 1, 'Entregado'),
+    (15, 3, NULL, 1, 'Preparando'),
+    (16, 5, NULL, 2, 'Pendiente'),
+    (16, 10, NULL, 1, 'Completado'),
+    (17, 7, NULL, 1, 'Completado'),
+    (17, NULL, 2, 1, 'Preparando'),
+    (18, 9, NULL, 1, 'Preparando'),
+    (18, 6, NULL, 1, 'Completado'),
+    (19, 8, NULL, 2, 'Entregado'),
+    (19, NULL, 3, 1, 'Preparando'),
+    (20, 4, NULL, 1, 'Pendiente'),
+    (20, 2, NULL, 1, 'Completado');

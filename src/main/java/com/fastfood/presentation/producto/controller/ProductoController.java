@@ -2,15 +2,20 @@ package com.fastfood.presentation.producto.controller;
 
 import com.fastfood.domain.producto.model.ProductoModel;
 import com.fastfood.domain.producto.service.ProductoService;
+import com.fastfood.domain.producto.valueobject.PaginaResult;
+import com.fastfood.domain.producto.valueobject.PaginacionRequest;
 import com.fastfood.presentation.producto.dto.ProductoCreateRequestDTO;
 import com.fastfood.presentation.producto.dto.ProductoResponseDTO;
 import com.fastfood.presentation.producto.dto.ProductoUpdateRequestDTO;
 import com.fastfood.presentation.producto.mapper.ProductoDTOMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/productos")
@@ -24,15 +29,25 @@ public class ProductoController {
     // Crear Producto
     // --------------------------
     @PostMapping
-    public String crearProducto(@Valid @RequestBody ProductoCreateRequestDTO dto) {
+    public ResponseEntity<Map<String, Object>> crearProducto(@Valid @RequestBody ProductoCreateRequestDTO dto) {
+        Map<String, Object> response = new HashMap<>();
         try {
+
             ProductoModel producto = productoDTOMapper.map(dto);
             productoService.guardar(producto);
-            return "Producto registrado correctamente";
+
+            response.put("success", true);
+            response.put("message", "Producto registrado correctamente");
+
+            return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
-            return "No se puede registrar el producto: " + e.getMessage();
+            response.put("success", false);
+            response.put("message", "No se puede registrar el producto: " + e.getMessage());
+
+            return ResponseEntity.badRequest().body(response);
         }
     }
+
 
     // --------------------------
     // Actualizar Producto
@@ -81,5 +96,27 @@ public class ProductoController {
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado con id: " + id));
         return productoDTOMapper.map(producto);
     }
+
+    // --------------------------
+    // Listar todos los paginados
+    // --------------------------
+    @GetMapping("/paginado")
+    public ResponseEntity<PaginaResult<ProductoModel>> listarEmpleados(
+            @RequestParam(defaultValue = "0") int pagina,
+            @RequestParam(defaultValue = "10") int tamanio,
+            @RequestParam(defaultValue = "id") String ordenarPor,
+            @RequestParam(defaultValue = "asc") String direccion) {
+
+        PaginacionRequest paginacion = PaginacionRequest.builder()
+                .pagina(pagina)
+                .tamanio(tamanio)
+                .ordenarPor(ordenarPor)
+                .direccion(direccion)
+                .build();
+
+        PaginaResult<ProductoModel> resultado = productoService.listarProductosPaginado(paginacion);
+        return ResponseEntity.ok(resultado);
+    }
+
 
 }

@@ -15,7 +15,7 @@ public interface DetallePedidoMapper {
     @Mapping(target = "estado", source = "estado")
     @Mapping(target = "pedido", ignore = true) // ← AGREGAR ESTA LÍNEA
     @Mapping(target = "producto", ignore = true)
-    @Mapping(target = "comboProducto", ignore = true)
+    @Mapping(target = "combo", ignore = true)
     DetallePedidoModel map(DetallePedidoEntity entity);
 
     @Mapping(target = "idDetallePedido", source = "idDetallePedido")

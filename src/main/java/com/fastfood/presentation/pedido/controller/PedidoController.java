@@ -49,6 +49,51 @@ public class PedidoController {
                 .toList();
     }
 
+    @GetMapping("/pendientes")
+    public List<PedidoResponseDTO> listarPedidosPendientes(){
+        return pedidoService.listarPorEstado("Pendiente")
+                .stream()
+                .map(pedidoDTOMapper::map)
+                .toList();
+    }
+
+    @GetMapping("/preparacion")
+    public List<PedidoResponseDTO> listarPedidosPreparacion(){
+        return pedidoService.listarPorEstado("Preparando")
+                .stream()
+                .map(pedidoDTOMapper::map)
+                .toList();
+    }
+
+    @GetMapping("/completados")
+    public List<PedidoResponseDTO> listarPedidosCompletados(){
+        return pedidoService.listarPorEstado("Completado")
+                .stream()
+                .map(pedidoDTOMapper::map)
+                .toList();
+    }
+
+    @GetMapping("/estado/{estado}")
+    public List<PedidoResponseDTO> listarPedidosPorEstado(@PathVariable String estado){
+        return pedidoService.listarPorEstado(estado)
+                .stream()
+                .map(pedidoDTOMapper::map)
+                .toList();
+    }
+
+//    @GetMapping("/completados")
+//    public List<PedidoModel> listarPedidosCompletados(){
+//        return pedidoService.listarPorEstado("Completado");
+//    }
+
+    @GetMapping("/entregados")
+    public List<PedidoResponseDTO> listarPedidosEntregados(){
+        return pedidoService.listarPorEstado("Entregado")
+                .stream()
+                .map(pedidoDTOMapper::map)
+                .toList();
+    }
+
     @GetMapping("/{id}")
     public PedidoResponseDTO obtenerPedido(@PathVariable Integer id) {
         PedidoModel pedido = pedidoService.buscarPorId(id)
@@ -63,6 +108,16 @@ public class PedidoController {
             return "Pedido eliminado correctamente";
         } catch (RuntimeException e) {
             return "No se puede eliminar el pedido: " + e.getMessage();
+        }
+    }
+
+    @PatchMapping("/{id}")
+    public String cambiarEstadoPedido(@PathVariable Integer id) {
+        try {
+            pedidoService.cambiarEstadoPedido(id);
+            return "Estado del pedido cambiado correctamente" + id;
+        } catch (RuntimeException e) {
+            return "No se puede cambiar el estado del pedido: " + e.getMessage();
         }
     }
 }

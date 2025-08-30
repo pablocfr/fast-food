@@ -1,7 +1,8 @@
 package com.fastfood.presentation.pedido.dto;
 
 public record DetallePedidoResponseDTO(
-        Integer idDetalle,
+        Integer cantidad,
+        String estado,
         ProductoDTO producto,
-        Integer cantidad
+        ComboDTO combo
 ) { }

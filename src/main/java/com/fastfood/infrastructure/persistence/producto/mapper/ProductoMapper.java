@@ -11,10 +11,10 @@ import org.mapstruct.Mapping;
 public interface ProductoMapper {
 
     @Mapping(target = "comboProductos", ignore = true) // rompe posible recursión Combo → Producto → Combo
-    @Mapping(target = "detalles", source = "detalles")
+    @Mapping(target = "detalles", ignore = true)
     ProductoModel map(ProductoEntity entity);
 
     @Mapping(target = "comboProductos", ignore = true)
-    @Mapping(target = "detalles", source = "detalles")
+    @Mapping(target = "detalles", ignore = true)
     ProductoEntity mapEntity(ProductoModel model);
 }

@@ -25,6 +25,8 @@ public class PedidoServiceImpl implements PedidoService {
     private final ListarProductosUseCase listarProductosUseCase;
     private final ListarProductosPorNombre listarProductosPorNombre;
     private final ListarTipoProductoUseCase listarTipoProductoUseCase;
+    private final ListarPedidosPorEstadoUseCase listarPedidosPorEstadoUseCase;
+    private final CambiarEstadoPedidoUseCase cambiarEstadoPedidoUseCase;
 
     @Override
     public Optional<PedidoModel> buscarPorId(Integer id) {
@@ -74,5 +76,15 @@ public class PedidoServiceImpl implements PedidoService {
     @Override
     public List<ProductoModel> listarPorTipoProducto(String tipoProducto) {
         return listarTipoProductoUseCase.listarProductosPorNombre(tipoProducto);
+    }
+
+    @Override
+    public List<PedidoModel> listarPorEstado(String estado) {
+        return listarPedidosPorEstadoUseCase.listarPedidoPorEstado(estado);
+    }
+
+    @Override
+    public void cambiarEstadoPedido(Integer id) {
+        cambiarEstadoPedidoUseCase.cambiarEstadoPedido(id);
     }
 }
