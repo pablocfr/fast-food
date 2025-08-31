@@ -5,10 +5,14 @@ import com.fastfood.domain.producto.service.CategoriaProdService;
 import com.fastfood.presentation.producto.dto.CategoriaCreateRequestDTO;
 import com.fastfood.presentation.producto.dto.CategoriaProdDTO;
 import com.fastfood.presentation.producto.mapper.CategoriaDTOMapper;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -28,14 +32,26 @@ public class CategoriaController {
     }
 
     @PostMapping
-    public String guardarCategoria(@RequestBody CategoriaCreateRequestDTO dto) {
+    public ResponseEntity<Map<String, Object>> crearCategoria(@Valid @RequestBody CategoriaCreateRequestDTO dto) {
+        Map<String, Object> response = new HashMap<>();
         try {
+
             CategoriaProdModel categoria = categoriaDTOMapper.map(dto);
             categoriaProdService.guardarCategoria(categoria);
-            return "Categoría registrada correctamente";
+
+            response.put("success", true);
+            response.put("message", "Categoría registrada correctamente");
+
+            return ResponseEntity.ok(response);
+
         } catch (RuntimeException e) {
-            return "No se puede registrar la categoría: " + e.getMessage();
+            response.put("success", false);
+            response.put("message", "No se puede registrar la categoría: " + e.getMessage());
+
+            return ResponseEntity.badRequest().body(response);
         }
     }
 
 }
+
+

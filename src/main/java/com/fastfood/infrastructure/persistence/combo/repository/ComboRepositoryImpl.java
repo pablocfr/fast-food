@@ -65,4 +65,12 @@ public class ComboRepositoryImpl implements ComboRepository {
                 comboRepositoryJPA.save(
                         comboMapper.mapEntity(eliminarCombo)));
     }
+
+    @Override
+    public List<ComboModel> listarCombos() {
+        return comboRepositoryJPA.findAllWithProductos()
+                .stream()
+                .map(comboMapper::map)
+                .toList();
+    }
 }

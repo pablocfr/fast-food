@@ -2,12 +2,16 @@ package com.fastfood.presentation.pedido.controller;
 
 import com.fastfood.domain.pedido.model.PedidoModel;
 import com.fastfood.domain.pedido.service.PedidoService;
+import com.fastfood.domain.producto.model.ProductoModel;
+import com.fastfood.domain.producto.valueobject.PaginaResult;
+import com.fastfood.domain.producto.valueobject.PaginacionRequest;
 import com.fastfood.presentation.pedido.dto.DetallePedidoCreateDTO;
 import com.fastfood.presentation.pedido.dto.PedidoCreateRequestDTO;
 import com.fastfood.presentation.pedido.dto.PedidoResponseDTO;
 import com.fastfood.presentation.pedido.mapper.PedidoDTOMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -120,4 +124,27 @@ public class PedidoController {
             return "No se puede cambiar el estado del pedido: " + e.getMessage();
         }
     }
+
+    @GetMapping("/paginado")
+    public ResponseEntity<PaginaResult<PedidoResponseDTO>> listarPedidos(
+            @RequestParam(defaultValue = "0") int pagina,
+            @RequestParam(defaultValue = "10") int tamanio,
+            @RequestParam(defaultValue = "id") String ordenarPor,
+            @RequestParam(defaultValue = "asc") String direccion) {
+
+        PaginacionRequest paginacion = PaginacionRequest.builder()
+                .pagina(pagina)
+                .tamanio(tamanio)
+                .ordenarPor(ordenarPor)
+                .direccion(direccion)
+                .build();
+
+        // Aquí el map transforma cada PedidoModel en PedidoResponseDTO
+        PaginaResult<PedidoResponseDTO> resultado =
+                pedidoService.listarPedidosPaginado(paginacion)
+                        .map(pedidoDTOMapper::map);
+
+        return ResponseEntity.ok(resultado);
+    }
+
 }

@@ -18,6 +18,7 @@ public class ComboServiceImpl implements ComboService {
     private final EliminarComboUseCase eliminarComboUseCase;
     private final ObtenerComboUseCase obtenerComboUseCase;
     private final ListarCombosUseCase listarCombosUseCase;
+    private final ObtenerCombosUseCase obtenerCombosUseCase;
 
     @Override
     public Optional<ComboModel> buscarPorId(Integer id) {
@@ -42,5 +43,10 @@ public class ComboServiceImpl implements ComboService {
     @Override
     public void eliminar(Integer id) {
         eliminarComboUseCase.eliminar(id);
+    }
+
+    @Override
+    public List<ComboModel> listarCombos() {
+        return obtenerCombosUseCase.listarCombos();
     }
 }

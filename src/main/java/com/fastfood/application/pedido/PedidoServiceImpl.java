@@ -5,6 +5,8 @@ import com.fastfood.domain.combo.model.ComboModel;
 import com.fastfood.domain.pedido.model.PedidoModel;
 import com.fastfood.domain.pedido.service.PedidoService;
 import com.fastfood.domain.producto.model.ProductoModel;
+import com.fastfood.domain.producto.valueobject.PaginaResult;
+import com.fastfood.domain.producto.valueobject.PaginacionRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,7 @@ public class PedidoServiceImpl implements PedidoService {
     private final ListarTipoProductoUseCase listarTipoProductoUseCase;
     private final ListarPedidosPorEstadoUseCase listarPedidosPorEstadoUseCase;
     private final CambiarEstadoPedidoUseCase cambiarEstadoPedidoUseCase;
+    private final ListarPedidosPaginadoUseCase listarPedidosPaginadoUseCase;
 
     @Override
     public Optional<PedidoModel> buscarPorId(Integer id) {
@@ -86,5 +89,10 @@ public class PedidoServiceImpl implements PedidoService {
     @Override
     public void cambiarEstadoPedido(Integer id) {
         cambiarEstadoPedidoUseCase.cambiarEstadoPedido(id);
+    }
+
+    @Override
+    public PaginaResult<PedidoModel> listarPedidosPaginado(PaginacionRequest paginacion) {
+        return listarPedidosPaginadoUseCase.ejecutar(paginacion);
     }
 }

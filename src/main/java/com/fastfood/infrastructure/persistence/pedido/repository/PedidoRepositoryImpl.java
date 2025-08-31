@@ -6,11 +6,19 @@ import com.fastfood.domain.pedido.model.PedidoModel;
 import com.fastfood.domain.pedido.repository.PedidoRepository;
 import com.fastfood.domain.producto.model.ProductoModel;
 import com.fastfood.domain.producto.repository.ProductoRepository;
+import com.fastfood.domain.producto.valueobject.PaginaResult;
+import com.fastfood.domain.producto.valueobject.PaginacionRequest;
+import com.fastfood.infrastructure.persistence.pedido.entity.PedidoEntity;
 import com.fastfood.infrastructure.persistence.pedido.jpa.PedidoRepositoryJPA;
 import com.fastfood.infrastructure.persistence.pedido.mapper.PedidoMapper;
+import com.fastfood.infrastructure.persistence.producto.entity.ProductoEntity;
 import com.fastfood.infrastructure.persistence.producto.jpa.ProductoRepositoryJPA;
 import com.fastfood.infrastructure.persistence.producto.mapper.ProductoMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -120,6 +128,33 @@ public class PedidoRepositoryImpl implements PedidoRepository {
         }
 
         pedidoRepositoryJPA.save(pedidoMapper.mapEntity(pedido));
+    }
+
+    @Override
+    public PaginaResult<PedidoModel> listarPedidosPaginado(PaginacionRequest paginacion) {
+        Pageable pageable = createPageable(paginacion);
+        Page<PedidoEntity> page = pedidoRepositoryJPA.findAllPedidos(pageable);
+
+        List<PedidoModel> productos = page.getContent()
+                .stream()
+                .map(pedidoMapper::map)
+                .toList();
+
+        return PaginaResult.of(
+                productos,
+                page.getNumber(),
+                page.getSize(),
+                page.getTotalElements()
+
+        );
+    }
+
+    private Pageable createPageable(PaginacionRequest paginacion) {
+        Sort sort = paginacion.isAscendente() ?
+                Sort.by(paginacion.getOrdenarPor()).ascending() :
+                Sort.by(paginacion.getOrdenarPor()).descending();
+
+        return PageRequest.of(paginacion.getPagina(), paginacion.getTamanio(), sort);
     }
 
 }

@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ComboProductoDTO {
-    private Integer idComboProducto;
-    private Integer cantidad;
+public class ProductoDTO {
+    private Integer idProducto;
+    private String nombre;
+    private Double precio;
     private Boolean activo;
-    private ProductoDTO producto;
 }

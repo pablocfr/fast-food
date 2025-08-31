@@ -1,11 +1,7 @@
 package com.fastfood.infrastructure.persistence.combo.mapper;
 
 import com.fastfood.domain.combo.model.ComboModel;
-import com.fastfood.domain.combo.model.ComboProductoModel;
-import com.fastfood.domain.producto.model.ProductoModel;
 import com.fastfood.infrastructure.persistence.combo.entity.ComboEntity;
-import com.fastfood.infrastructure.persistence.combo.entity.ComboProductoEntity;
-import com.fastfood.infrastructure.persistence.producto.entity.ProductoEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

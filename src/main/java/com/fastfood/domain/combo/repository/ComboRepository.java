@@ -12,4 +12,6 @@ public interface ComboRepository {
     ComboModel guardar(ComboModel combo);
     ComboModel actualizar(Integer id, ComboModel combo);
     void eliminar(Integer id);
+
+    List<ComboModel> listarCombos();
 }

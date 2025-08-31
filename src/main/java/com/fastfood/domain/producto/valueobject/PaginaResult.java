@@ -30,4 +30,22 @@ public class PaginaResult<T> {
                 .vacia(contenido.isEmpty())
                 .build();
     }
+
+    // 👇 este es el método que te falta
+    public <R> PaginaResult<R> map(java.util.function.Function<? super T, ? extends R> mapper) {
+        List<R> nuevoContenido = this.contenido.stream()
+                .map(mapper)
+                .collect(java.util.stream.Collectors.toList()); // ✅ compatible con Java 8+
+
+        return PaginaResult.<R>builder()
+                .contenido(nuevoContenido)
+                .paginaActual(this.paginaActual)
+                .tamanio(this.tamanio)
+                .totalElementos(this.totalElementos)
+                .totalPaginas(this.totalPaginas)
+                .primera(this.primera)
+                .ultima(this.ultima)
+                .vacia(nuevoContenido.isEmpty())
+                .build();
+    }
 }

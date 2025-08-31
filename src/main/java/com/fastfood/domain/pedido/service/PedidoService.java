@@ -3,6 +3,8 @@ package com.fastfood.domain.pedido.service;
 import com.fastfood.domain.combo.model.ComboModel;
 import com.fastfood.domain.pedido.model.PedidoModel;
 import com.fastfood.domain.producto.model.ProductoModel;
+import com.fastfood.domain.producto.valueobject.PaginaResult;
+import com.fastfood.domain.producto.valueobject.PaginacionRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,4 +25,6 @@ public interface PedidoService {
     List<PedidoModel> listarPorEstado(String estado);
 
     void cambiarEstadoPedido(Integer id);
+
+    PaginaResult<PedidoModel> listarPedidosPaginado(PaginacionRequest paginacion);
 }

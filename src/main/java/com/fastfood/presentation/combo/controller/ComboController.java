@@ -2,10 +2,13 @@ package com.fastfood.presentation.combo.controller;
 
 import com.fastfood.domain.combo.model.ComboModel;
 import com.fastfood.domain.combo.service.ComboService;
+import com.fastfood.infrastructure.persistence.combo.entity.ComboEntity;
+import com.fastfood.infrastructure.persistence.combo.jpa.ComboRepositoryJPA;
 import com.fastfood.presentation.combo.dto.request.ComboCreateRequestDTO;
+import com.fastfood.presentation.combo.dto.request.ComboDTO;
 import com.fastfood.presentation.combo.dto.request.ComboUpdateRequestDTO;
-import com.fastfood.presentation.combo.dto.response.ComboResponseDTO;
 import com.fastfood.presentation.combo.mapper.ComboDTOMapper;
+import com.fastfood.presentation.combo.mapper.PresentationComboMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +22,9 @@ public class ComboController {
 
     private final ComboService comboService;
     private final ComboDTOMapper comboDTOMapper;
+
+    private final PresentationComboMapper comboMapper;
+    private final ComboRepositoryJPA comboRepositoryJPA;
 
     // 1. Crear Combo
     @PostMapping
@@ -54,8 +60,15 @@ public class ComboController {
         }
     }
 
+//    @GetMapping
+//    public List<ComboModel> listarCombos() {
+//        return comboService.buscarTodos();
+//    }
+
     @GetMapping
-    public List<ComboModel> listarCombos() {
-        return comboService.buscarTodos();
+    public List<ComboDTO> listarCombos() {
+        List<ComboEntity> combos = comboRepositoryJPA.findAll();
+        return comboMapper.toDTOList(combos);
     }
+
 }
